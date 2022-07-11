@@ -6,6 +6,8 @@ This web application project is a homework for *100 Days of Code: The Complete P
 * User need to log in to save todo list
 * One user can have maximum of five todo lists, 10 tasks per list.
 
+![screenshot.png](screenshot.png)
+
 ### Initial DB structure design (Not implemented)
 
 ![initial_design.jpg](initial_design.jpg)
