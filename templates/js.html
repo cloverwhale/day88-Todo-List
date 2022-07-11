@@ -1,0 +1,104 @@
+<script>
+        <!-- Save todo list -->
+        $(document).on('click', ".list-save", function(){
+            current_user = "{{ current_user.id }}";
+
+            var list_id = -1;
+            var list_id_temp = $(this).parents(".accordion-item").find("h2").attr("id");
+
+            if (list_id_temp.includes("heading")) {
+                list_id = list_id_temp.substring(8);
+            }
+            console.log(list_id);
+            list_name = $(this).parents(".accordion-item").find(".form-control-plaintext").val();
+            all_tasks = $(this).parents(".accordion-item").find(".sortable-list > li");
+
+            tasks_to_save = [];
+            for (i = 0; i < all_tasks.length; i++) {
+                tasks_to_save.push(
+                    {
+                        "task_name": $(all_tasks[i]).text(),
+                        "completed": $(all_tasks[i]).children(".form-check-input").is(':checked')
+                    }
+                )
+            }
+
+            list_to_save = {
+                "list_title": list_name,
+                "list_id": list_id,
+                "list_owner": "{{ current_user.id }}",
+                "tasks" : tasks_to_save
+            }
+
+            if (list_id == -1) {
+                save_element = "#"+list_id_temp.toString();
+                $.ajax({
+                    url: "{{ url_for('save') }}",
+                    type: "POST",
+                    contentType: "application/json",
+                    data : JSON.stringify(list_to_save),
+                    success: function() {
+                        $('<p class=\"save-flash\">List is saved.</p>').insertAfter($(save_element).next()).fadeOut("slow");
+                    },
+                    error: function() {
+                        $('<p class=\"save-flash-failed\">List cannot be saved.</p>').insertAfter($(save_element).next()).fadeOut("slow");
+                    },
+                    complete: function(){
+                        setTimeout(function(){  document.location.reload(); }, 1000);
+                    }
+                });
+           } else {
+                $.ajax({
+                    url: "{{ url_for('update') }}",
+                    type: "PATCH",
+                    contentType: "application/json",
+                    data : JSON.stringify(list_to_save),
+                    success: function() {
+                        $('<p class=\"save-flash\">List is saved.</p>').insertAfter("#collapse-"+list_id.toString()).fadeOut("slow");
+                    },
+                    complete: function() {
+                        setTimeout(function(){  document.location.reload(); }, 1000);
+                    }
+                });
+
+           }
+        });
+
+        <!-- Delete todo list -->
+        $(document).on('click', ".del-list-icon", function(){
+
+            var list_id = -1;
+            list_id_temp = $(this).parents(".accordion-item").find("h2").attr("id");
+            if (list_id_temp.includes("heading")) {
+                list_id = list_id_temp.substring(8);
+            }
+
+            if (list_id != -1) {
+                $.ajax({
+                    url: "{{ url_for('delete') }}",
+                    type: "DELETE",
+                    contentType: "application/json",
+                    data : JSON.stringify({"list_id":list_id}),
+                    success: function() {
+                        $('<p class=\"delete-flash\">Deleting...</p>').insertBefore($("#heading-"+list_id.toString()).parent()).fadeOut("slow");
+                    },
+                    error: function() {
+
+                    },
+                    complete: function(){
+                        setTimeout(function(){
+                            document.location.reload();
+                        }, 1000);
+                    }
+                });
+                setTimeout(function(){  $(this).parent().parent().remove(); }, 500);
+
+            } else {
+                $(this).parent().parent().remove();
+
+            }
+
+        });
+
+
+</script>

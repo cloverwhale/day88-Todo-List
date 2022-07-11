@@ -1,0 +1,94 @@
+{% include "header.html" %}
+
+<!-- User todoList Starts -->
+<div class="container-fluid list-body">
+    <div class="row">
+
+        <div class="info">
+            <p>Login to save todo lists.</p>
+            <span class="add-list"><i class="fa-solid fa-list"></i> Add a new list</span>
+        </div>
+
+        <div class="accordion col-lg-6 col-md-8" id="accordionPanels">
+
+            {% if current_user.id %}
+            {% if todo_lists|length > 0 %}
+            {% for list in todo_lists %}
+
+            <div class="accordion-item group">
+                <h2 class="accordion-header d-flex" id="heading-{{ list.list_id }}">
+                    <i class="fa-solid fa-trash-can del-list-icon p-3"></i>
+                    <input type="text" class="form-control-plaintext w-300" value="{{ list.list_title }}">
+                    <button class="accordion-button p-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse-{{ list.list_id }}" aria-expanded="true"
+                            aria-controls="collapse-{{ list.list_id }}">
+                    </button>
+                </h2>
+                <div id="collapse-{{ list.list_id }}" class="accordion-collapse collapse show"
+                     aria-labelledby="heading-{{ list.list_id }}">
+                    <div class="accordion-body">
+                        <div class="list-box">
+                            <input class="tasks" type="text" placeholder="Add task here..."/> <i
+                                class="fa-solid fa-plus add-icon"></i>
+                            <ul class="sortable-list">
+                                {% for task in list.tasks %}
+                                {% if task.is_completed %}
+                                <li><input class="form-check-input" type="checkbox" value="" checked><span>{{ task.task_name }}</span><i
+                                        class="fa-solid fa-circle-minus del-icon"></i></li>
+                                {% else %}
+                                <li><input class="form-check-input" type="checkbox" value=""><span>{{ task.task_name }}</span><i
+                                        class="fa-solid fa-circle-minus del-icon"></i></li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                            <div class="list-save"><i class="fa-solid fa-file-pen"></i> Save</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+            {% endif %}
+            {% endif %}
+
+            {% if not current_user.id %}
+            <div class="accordion-item group">
+                <h2 class="accordion-header d-flex" id="panelHeadingExample">
+                    <i class="fa-solid fa-trash-can del-list-icon p-3"></i>
+                    <input type="text" class="form-control-plaintext w-300" value="New Todo List">
+                    <button class="accordion-button p-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelCollapseExample" aria-expanded="true"
+                            aria-controls="panelCollapseExample">
+                    </button>
+                </h2>
+                <div id="panelCollapseExample" class="accordion-collapse collapse show"
+                     aria-labelledby="panelHeadingExample">
+                    <div class="accordion-body">
+                        <div class="list-box">
+
+                            <input class="tasks" type="text" placeholder="Add task here..."/>
+                            <i class="fa-solid fa-plus add-icon"></i>
+
+                            <ul class="sortable-list">
+                            </ul>
+                            {% if current_user.is_authenticated %}
+                            <div class="list-info"><i class="fa-solid fa-file-pen"></i> Save</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <p class="error-flash">{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    </div>
+</div>
+
+{% include "footer.html" %}
