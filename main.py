@@ -66,7 +66,7 @@ class Task(db.Model):
         return {column.name: getattr(self, column.name) for column in self.__table__.columns}
 
 
-db.create_all()
+# db.create_all()
 
 
 # User session ------------------------------------------------------------
