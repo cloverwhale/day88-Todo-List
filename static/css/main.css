@@ -118,9 +118,9 @@ input:focus {
 }
 
 .group {
-    padding:0.5em;
-    margin:1em;
-    border:2px dotted #B8DFD8;
+    padding:0.8em;
+    margin:1.4em;
+    border:none;
 }
 
 .list-title {
@@ -142,10 +142,10 @@ input:focus {
 }
 
 .sortable-list li {
-    margin:0.5em 0;
+    margin:0.8em 0;
     background: #FFE194;
     padding:0.5em;
-    border: 1px dashed #FFF;
+    border-bottom: 1px solid #ccc;
 }
 
 .form-check-input:checked {

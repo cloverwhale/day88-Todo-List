@@ -20,8 +20,8 @@ $(function() {
 
             divGroup.innerHTML = "<h2 class=\"accordion-header d-flex\" id=\"" + idLabel + "\">" +
                                  "<i class=\"fa-solid fa-trash-can del-list-icon p-3\"></i>" +
-                                 "<input type=\"text\" class=\"form-control-plaintext\" value=\"New Todo List\">" +
-                                 "<button class=\"accordion-button p-3 flex-fill\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#" + idAccArea + "\" aria-expanded=\"true\" aria-controls=\"" + idAccArea + "\">" +
+                                 "<input type=\"text\" class=\"form-control-plaintext w-300\" value=\"New Todo List\">" +
+                                 "<button class=\"accordion-button p-3\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#" + idAccArea + "\" aria-expanded=\"true\" aria-controls=\"" + idAccArea + "\">" +
                                  "</button>" +
                                  "</h2>";
 
